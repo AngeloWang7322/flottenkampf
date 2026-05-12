@@ -13,8 +13,8 @@ public:
     void print();
 
 private:
-    void renderShip(Ship *ship);
+    void renderShip(Ship *ship, bool isActive);
     void resetFrame();
-    char frameBuffer[BS::MAP_HEIGHT][BS::MAP_WIDTH];
+    string frameBuffer[BS::MAP_HEIGHT][BS::MAP_WIDTH];
 };
 #endif

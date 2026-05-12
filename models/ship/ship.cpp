@@ -10,11 +10,13 @@ Ship::Ship()
     this->state = ShipState::IDLE;
 }
 
-void Ship::setX(int val){
+void Ship::setX(int val)
+{
     this->x = val;
 }
 
-void Ship::setY(int val){
+void Ship::setY(int val)
+{
     this->y = val;
 }
 
@@ -30,4 +32,8 @@ int Ship::getY()
 int Ship::getSize()
 {
     return this->size;
+}
+ShipState Ship::getState()
+{
+    return state;
 }

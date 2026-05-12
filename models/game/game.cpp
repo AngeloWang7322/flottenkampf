@@ -122,7 +122,9 @@ void Game::handleFleetSelectionInput(
     }
 }
 void Game::start()
-{
+{   
+    fleetA.setActive(0);
+    fleetB.setActive(0);
     this->state = GameState::MOVING;
     this->map.renderFleet(this->fleetA);
     this->map.renderFleet(this->fleetB);

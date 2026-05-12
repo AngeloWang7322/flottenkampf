@@ -13,6 +13,8 @@ public:
     int getX();
     int getY();
     int getSize();
+    ShipState getState();
+    bool isActive();
 
 protected:
     int size;

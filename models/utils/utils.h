@@ -13,8 +13,9 @@ public:
     static bool isInputB(char);
     static Action parseInputA(char);
     static Action parseInputB(char);
+    static TextStyle shipStateToColor(ShipState);
 
     template <typename T>
-    static bool includes(const T& needle, const vector<T>& haystack);
+    static bool includes(const T &needle, const vector<T> &haystack);
 };
 #endif

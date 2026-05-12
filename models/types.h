@@ -8,13 +8,16 @@ enum ShipState
 {
     IDLE,
     DAMAGED,
-    BLINKING,
-    DESTROYED
+    SELECTED,
+    SUNKEN
 };
 enum TextStyle
 {
+    WHITE,
     RED,
     YELLOW,
+    BLUE,
+    BLACK,
 };
 enum Action
 {

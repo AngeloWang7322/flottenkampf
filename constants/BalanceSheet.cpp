@@ -4,7 +4,7 @@ class BS
 {
 public:
     inline static const int MAP_WIDTH = 50;
-    inline static const int MAP_HEIGHT = 5;
+    inline static const int MAP_HEIGHT = 10;
     inline static const int SPAWN_OFFSET = 2; 
     inline static const int HUNTER_SIZE = 4;
     inline static const int DESTROYER_SIZE = 6;

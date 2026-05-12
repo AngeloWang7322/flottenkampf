@@ -14,10 +14,14 @@ public:
     void addShip(int);
     void align(int);
     void choose();
-    Ship *getShip(int );
+    void setActive(int);
+    int getActive();
+    Ship *getActiveShip(int);
+    Ship *getShip(int);
     vector<Ship *> getShips();
 
 private:
     vector<Ship *> ships;
+    int active;
 };
 #endif

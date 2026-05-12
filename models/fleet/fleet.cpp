@@ -48,8 +48,26 @@ void Fleet::align(int pos)
         border = pos + BS::MAP_WIDTH - BS::SPAWN_OFFSET;
         sign = -1;
     }
-    for (Ship *ship : this->ships)
-        ship->setX(border + ((ship->getSize() / 2) * sign));
+    for (int i = 0; i < this->ships.size(); i++)
+    {
+        Ship *curShip = this->ships.at(i);
+        curShip->setX(border + ((curShip->getSize() / 2) * sign));
+        curShip->setY((BS::MAP_HEIGHT / 2) + (((i) / 2) + ((i % 2) * -1) * i));
+    }
+}
+
+void Fleet::setActive(int)
+{
+    active = 0;
+}
+int Fleet::getActive()
+{
+    return active;
+}
+
+Ship *Fleet::getActiveShip(int)
+{
+    return ships.at(active);
 }
 
 Ship *Fleet::getShip(int index)

@@ -9,15 +9,20 @@ using namespace std;
 
 string Utils::colorize(string str, TextStyle style)
 {
-    string code;
+    string code = "\e[0m";
     switch (style)
     {
     case TextStyle::RED:
-        code = "\e[0;31m";
-    case TextStyle::YELLOW:
         code = "\e[0;33m";
+        break;
+    case TextStyle::YELLOW:
+        code = "\e[0;31m";
+        break;
+    case TextStyle::BLUE:
+        code = "\e[0;36m";
+        break;
     }
-    return code + str + "\033[0m";
+    return code + str + "\e[0m";
 }
 char Utils::readInput()
 {
@@ -91,4 +96,16 @@ bool Utils::includes(const T &needle, const vector<T> &haystack)
             return true;
 
     return false;
+}
+TextStyle Utils::shipStateToColor(ShipState state)
+{
+    switch (state)
+    {
+    case ShipState::DAMAGED:
+        return TextStyle::RED;
+    case ShipState::SUNKEN:
+        return TextStyle::BLACK;
+    default:
+        return TextStyle::WHITE;
+    }
 }

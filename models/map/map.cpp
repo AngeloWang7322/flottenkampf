@@ -2,6 +2,7 @@
 #include <iostream>
 #include "map.h"
 #include "../fleet/fleet.h"
+#include "../utils/utils.h"
 #include "../../constants/BalanceSheet.cpp"
 Map::Map()
 {
@@ -23,22 +24,28 @@ void Map::print()
 
 void Map::renderFleet(Fleet fleet)
 {
-    for (Ship *ship : fleet.getShips())
-        renderShip(ship);
+    for (int i = 0; i < fleet.getShips().size(); i++)
+    {
+        bool isActive = fleet.getActive() == i;
+        renderShip(fleet.getShip(i), isActive);
+    }
 }
 
 void Map::resetFrame()
 {
     for (int y = 0; y < BS::MAP_HEIGHT; y++)
         for (int x = 0; x < BS::MAP_WIDTH; x++)
-            frameBuffer[y][x] = '~';
+            frameBuffer[y][x] = Utils::colorize("~", TextStyle::BLUE);
 }
 
-void Map::renderShip(Ship *ship)
+void Map::renderShip(Ship *ship, bool isActive)
 {
     int size = ship->getSize();
     int half = (ship->getSize() / 2);
-    char toRender;
+    TextStyle shipColor = isActive
+                              ? TextStyle::YELLOW
+                              : Utils::shipStateToColor(ship->getState());
+    string toRender;
     for (int i = (half * -1); i < half; i++)
     {
         if (i == half * -1)
@@ -47,6 +54,6 @@ void Map::renderShip(Ship *ship)
             toRender = '>';
         else
             toRender = '=';
-        frameBuffer[ship->getY()][ship->getX() + i] = toRender;
+        frameBuffer[ship->getY()][ship->getX() + i] = Utils::colorize(toRender, shipColor);
     }
 }
