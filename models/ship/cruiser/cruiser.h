@@ -5,7 +5,7 @@
 class Cruiser : public Ship
 {
 public:
-    Cruiser(bool isLeft = true);
+    Cruiser();
     bool attack();
 
 private:

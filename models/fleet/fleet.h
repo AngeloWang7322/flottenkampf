@@ -10,8 +10,10 @@ class Fleet
 {
 public:
     Fleet();
-    void addShip(Ship *ship);
-    Ship *getShip(int index);
+    void addShip(Ship *);
+    void addShip(int);
+    void choose();
+    Ship *getShip(int );
     vector<Ship *> getShips();
 
 private:

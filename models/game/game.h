@@ -5,11 +5,12 @@
 class Game
 {
 public:
-    Game();
+    Game(); 
     void selectFleets();
     void start();
 private:
     char readInput();
+    string colorize(string, TextStyle);
     GameState state;
     Map map;
     Fleet fleetA;

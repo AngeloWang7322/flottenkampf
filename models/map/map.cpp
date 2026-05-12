@@ -10,6 +10,7 @@ Map::Map()
 
 void Map::print()
 {
+    system("clear");
     for (int y = 0; y < BS::MAP_HEIGHT; y++)
     {
         for (int x = 0; x < BS::MAP_WIDTH; x++)

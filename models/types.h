@@ -1,11 +1,18 @@
-enum GameState{
+enum GameState
+{
     FLEETCREATION,
     FIGHTING,
     MOVING
 };
-enum ShipState{
+enum ShipState
+{
     IDLE,
     DAMAGED,
     BLINKING,
     DESTROYED
+};
+enum TextStyle
+{
+    RED,
+    YELLOW,
 };
