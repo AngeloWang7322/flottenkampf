@@ -28,10 +28,10 @@ Greift zum Beispiel ein Jäger einen Kreuzer an, wird zuerst eine Trefferprobe a
 Würfelwurfs also 8 oder mehr ist, trifft der Angriff des Jägers und der Hüllenwert des Kreuzers
 wird um 30 verringert.
 Folgende Spezialregeln gelten für die verschiedenen Schiffe:
-• Kritische Treffer: Jäger verursachen doppelten Schaden, wenn das Ergebnis der Trefferprobe 9 oder 10 war.
-• Bombardement: Kreuzer dürfen einen weiteren Angriff durchführen, wenn der erste
+    - Kritische Treffer: Jäger verursachen doppelten Schaden, wenn das Ergebnis der Trefferprobe 9 oder 10 war.
+    - Bombardement: Kreuzer dürfen einen weiteren Angriff durchführen, wenn der erste
 erfolgreich war. Dieser Effekt kann beliebig oft in einer Aktion ausgelöst werden.
-• Zielsuchend: Trefferproben sind um 2 erleichtert.
+    - Zielsuchend: Trefferproben sind um 2 erleichtert.
 
 ## Flottenkampf - Stufe 2
 Erweitern Sie das Spiel nun um eine zweidimensionale Spielwelt, in der sich die Schiffe bewegen können und dann über eine Distanz hinweg angreifen müssen. Über größere Distanzen 
@@ -40,19 +40,19 @@ Zustand der Spielwelt aus.
 
 ## Flottenkampf - Stufe 3
 Ermöglichen Sie Schiffen, Erfahrungspunkte zu sammeln und nach dem Erreichen einer gewissen Anzahl zusätzliche Fähigkeiten freizuschalten, implementieren Sie dazu für jeden Schiffstyp noch mindestens zwei weitere Fähigkeiten.
-Anforderungen Flottenkampf
-• Implementierung einer klaren Klassenstruktur mit Vererbung und Polymorphismus
-• Fehlerüberprüfung der Inputs
-• Erstellung eines UML-Diagramms, welches die Klassenstruktur darstellt
-• Stufe 1
-– Dynamische Erstellung von Flotten und Schiffen durch User
-– Ausgabe von Ereignissen
-– Erstellung einer einfachen Angriffslogik
-• Stufe 2
-– Implementierung einer 2D-Spielwelt
-– Ausgabe der Spielwelt und Schiffe
-– Implementierung der Bewegungs- und Angriffslogik der Schiffe
-• Stufe 3
-– Implementierung von Erfahrungspunkten
-– Freischalten von neuen Fähigkeiten bei genügend Erfahrungspunkten
-– Erweiterung von jedem Schiffstyp um mindestens zwei zusätzliche Fähigkeiten
+- Anforderungen Flottenkampf
+  - Implementierung einer klaren Klassenstruktur mit Vererbung und Polymorphismus
+  - Fehlerüberprüfung der Inputs
+  - Erstellung eines UML-Diagramms, welches die Klassenstruktur darstellt
+- Stufe 1
+  - Dynamische Erstellung von Flotten und Schiffen durch User
+  - Ausgabe von Ereignissen
+  - Erstellung einer einfachen Angriffslogik
+- Stufe 2
+  - Implementierung einer 2D-Spielwelt
+  - Ausgabe der Spielwelt und Schiffe
+  - Implementierung der Bewegungs- und Angriffslogik der Schiffe
+- Stufe 3
+  - Implementierung von Erfahrungspunkten
+  - Freischalten von neuen Fähigkeiten bei genügend Erfahrungspunkten
+  - Erweiterung von jedem Schiffstyp um mindestens zwei zusätzliche Fähigkeiten
