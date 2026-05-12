@@ -16,3 +16,11 @@ enum TextStyle
     RED,
     YELLOW,
 };
+enum Action
+{
+    UP,
+    LEFT,
+    DOWN,
+    RIGHT,
+    EXECUTE
+};

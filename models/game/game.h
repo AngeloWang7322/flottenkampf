@@ -5,12 +5,12 @@
 class Game
 {
 public:
-    Game(); 
+    Game();
     void selectFleets();
     void start();
+
 private:
-    char readInput();
-    string colorize(string, TextStyle);
+    void handleFleetSelectionInput(Action action, int *hovered, int *budget, bool *isReady, int counts[], int costs[]);
     GameState state;
     Map map;
     Fleet fleetA;

@@ -12,6 +12,7 @@ public:
     Fleet();
     void addShip(Ship *);
     void addShip(int);
+    void align(int);
     void choose();
     Ship *getShip(int );
     vector<Ship *> getShips();

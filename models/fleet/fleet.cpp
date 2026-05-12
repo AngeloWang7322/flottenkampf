@@ -2,6 +2,8 @@
 #include <iostream>
 #include "fleet.h"
 #include "../ship/ship.h"
+#include "../ship/hunter/hunter.h"
+#include "../ship/destroyer/destroyer.h"
 #include "../ship/cruiser/cruiser.h"
 #include "../../constants/BalanceSheet.cpp"
 #include "../utils/utils.h"
@@ -19,76 +21,42 @@ void Fleet::addShip(Ship *ship)
 }
 void Fleet::addShip(int shipCode)
 {
-
     switch (shipCode)
     {
+    case 0:
+        this->addShip(new Hunter());
+        break;
+    case 1:
+        this->addShip(new Destroyer());
+        break;
     case 2:
         this->addShip(new Cruiser());
+        break;
     }
 }
-void Fleet::choose()
+
+void Fleet::align(int pos)
 {
-    int hovered = 0;
-    string types[] = {"HUNTER", "DESTROYER", "CRUISER"};
-    string attacks[] = {"Critical Hit", "Homing Missile", "Bombardement"};
-    int hp[] = {BS::HUNTER_HP, BS::DESTROYER_HP, BS::CRUISER_HP};
-    int dmg[] = {BS::HUNTER_DMG, BS::DESTROYER_DMG, BS::CRUISER_DMG};
-    int costs[] = {BS::HUNTER_SIZE, BS::DESTROYER_SIZE, BS::CRUISER_SIZE};
-    int counts[] = {0, 0, 0};
-    int budget = BS::FLEET_BUDGET;
-    char input = 'x';
-
-    while (input != '\n')
+    int border, sign;
+    if (pos >= 0)
     {
-        system("clear");
-        cout << "Budget: $" << budget;
-        for (int i = 0; i < 3; i++)
-        {
-            string tempLine = "\n" + types[i] + "($" + to_string(costs[i]) + ") " + to_string(hp[i]) + "Hp | " + to_string(dmg[i]) + "Dmg !" + attacks[i] + "!: - " + to_string(counts[i]) + " +";
-            if (i == hovered)
-                tempLine = Utils::colorize(tempLine, TextStyle::RED);
-            cout << tempLine;
-        }
-
-        input = Utils::readInput();
-        switch (input)
-        {
-        case 'w':
-            hovered = max(0, (hovered - 1));
-            break;
-        case 's':
-            hovered = min(2, (hovered + 1));
-            break;
-        case 'a':
-        {
-            if (counts[hovered] == 0)
-                break;
-
-            counts[hovered]--;
-            budget += costs[hovered];
-            break;
-        }
-        case 'd':
-        {
-            if (budget - costs[hovered] < 0)
-                break;
-
-            counts[hovered]++;
-            budget -= costs[hovered];
-            break;
-        }
-        }
+        border = pos + BS::SPAWN_OFFSET;
+        sign = 1;
     }
-
-    for (int i = 2; i >= 0; i--)
-        for (int j = 0; j < counts[i]; j++)
-            this->addShip(i);
+    else
+    {
+        border = pos + BS::MAP_WIDTH - BS::SPAWN_OFFSET;
+        sign = -1;
+    }
+    for (Ship *ship : this->ships)
+        ship->setX(border + ((ship->getSize() / 2) * sign));
 }
 
 Ship *Fleet::getShip(int index)
 {
     return this->ships[index];
 }
+
 vector<Ship *> Fleet::getShips()
 {
     return this->ships;

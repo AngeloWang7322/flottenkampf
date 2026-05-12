@@ -37,9 +37,8 @@ void Map::resetFrame()
 void Map::renderShip(Ship *ship)
 {
     int size = ship->getSize();
-    int half = ship->getSize() / 2;
+    int half = (ship->getSize() / 2);
     char toRender;
-    // cout << "\nHALF: " << half;
     for (int i = (half * -1); i < half; i++)
     {
         if (i == half * -1)
@@ -47,8 +46,7 @@ void Map::renderShip(Ship *ship)
         else if (i == half - 1)
             toRender = '>';
         else
-            toRender = '='; 
-    // cout << "\nToRender: " << toRender;
+            toRender = '=';
         frameBuffer[ship->getY()][ship->getX() + i] = toRender;
     }
 }
