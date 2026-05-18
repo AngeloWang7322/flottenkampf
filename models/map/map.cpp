@@ -4,14 +4,18 @@
 #include "../fleet/fleet.h"
 #include "../utils/utils.h"
 #include "../../constants/BalanceSheet.cpp"
+
+using namespace std;
+
 Map::Map()
 {
+    fleetA = nullptr;
+    fleetB = nullptr;
     this->resetFrame();
 }
 
-void Map::print()
+void Map::printFrame()
 {
-    system("clear");
     for (int y = 0; y < BS::MAP_HEIGHT; y++)
     {
         for (int x = 0; x < BS::MAP_WIDTH; x++)

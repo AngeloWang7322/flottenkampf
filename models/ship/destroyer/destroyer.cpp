@@ -10,7 +10,7 @@ Destroyer::Destroyer() : Ship()
     this->dmg = BS::DESTROYER_DMG;
 }
 
-bool Destroyer::attack()
+bool Destroyer::attack(Ship* ship)
 {
     return true;
 }

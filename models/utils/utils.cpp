@@ -2,7 +2,6 @@
 #include <vector>
 #include <termios.h>
 #include <unistd.h>
-#include "../types.h"
 #include "utils.h"
 
 using namespace std;
@@ -64,8 +63,6 @@ Action Utils::parseInputA(char input)
         return Action::RIGHT;
     case 'f':
         return Action::EXECUTE;
-    default:
-        throw "adsd";
     }
 }
 

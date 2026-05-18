@@ -1,19 +1,24 @@
+#pragma once
 #ifndef FLEET_H
 #define FLEET_H
 #include <vector>
 #include <stdio.h>
 #include <memory>
+#include "../map/map.h"
 #include "../ship/ship.h"
 
 using namespace std;
+class Map;
 class Fleet
 {
 public:
-    Fleet();
+    Fleet() = default;
+    Fleet(Map &);
+    void startCombatAgainst(Fleet);
+    void align(int);
+    void execute(Action action);
     void addShip(Ship *);
     void addShip(int);
-    void align(int);
-    void choose();
     void setActive(int);
     int getActive();
     Ship *getActiveShip(int);
@@ -22,6 +27,7 @@ public:
 
 private:
     vector<Ship *> ships;
+    Map &map;
     int active;
 };
 #endif

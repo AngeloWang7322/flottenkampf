@@ -1,7 +1,10 @@
+#pragma once
 #ifndef UTILS_H
 #define UTILS_H
 #include <string>
 #include <vector>
+#include "../types.h"
+
 using namespace std;
 
 class Utils

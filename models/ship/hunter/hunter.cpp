@@ -10,7 +10,7 @@ Hunter::Hunter() : Ship()
     this->dmg = BS::HUNTER_DMG;
 }
 
-bool Hunter::attack()
+bool Hunter::attack(Ship *target)
 {
     return true;
 }

@@ -1,11 +1,14 @@
+#pragma once
 #ifndef HUNTER_H
 #define HUNTER_H
 #include "../ship.h"
 
 class Hunter : public Ship
 {
-    public:
+public:
     Hunter();
-    bool attack();
+
+private:
+    bool attack(Ship *);
 };
 #endif

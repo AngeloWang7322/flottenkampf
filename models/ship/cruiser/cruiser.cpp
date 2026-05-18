@@ -9,7 +9,7 @@ Cruiser::Cruiser() : Ship()
     this->hp = BS::CRUISER_HP;
     this->dmg = BS::CRUISER_DMG;
 }
-bool Cruiser::attack()
+bool Cruiser::attack(Ship* ship)
 {
     return true;
 }

@@ -1,15 +1,17 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
+#include <thread>
+#include <chrono>
 #include "game.h"
+#include "../map/map.h"
 #include "../../constants/BalanceSheet.cpp"
 #include "../utils/utils.h"
+
 using namespace std;
 
-Game::Game()
+Game::Game() : fleetA(Fleet(this->map)), fleetB(Fleet(this->map))
 {
-    this->fleetA = Fleet();
-    this->fleetB = Fleet();
     this->map = Map();
     this->state = GameState::FLEETCREATION;
 }
@@ -30,7 +32,6 @@ void Game::selectFleets()
     bool isReadyA = false;
     bool isReadyB = false;
     char input = ' ';
-
     while (!isReadyA || !isReadyB)
     {
         system("clear");
@@ -50,6 +51,7 @@ void Game::selectFleets()
         }
 
         input = Utils::readInput();
+
         if (Utils::isInputA(input))
             handleFleetSelectionInput(
                 Utils::parseInputA(input),
@@ -122,11 +124,52 @@ void Game::handleFleetSelectionInput(
     }
 }
 void Game::start()
-{   
-    fleetA.setActive(0);
-    fleetB.setActive(0);
-    this->state = GameState::MOVING;
-    this->map.renderFleet(this->fleetA);
-    this->map.renderFleet(this->fleetB);
-    this->map.print();
+{
+    state = GameState::FIGHTING;
+    thread frameTicker([this]()
+                       { startFrameTicker(); });
+    char input;
+    Fleet *actingFleet;
+    Action action;
+
+    while (state == GameState::FIGHTING)
+    {
+        input = Utils::readInput();
+        if (!parseInput(input, &actingFleet, &action))
+            continue;
+
+        actingFleet->execute(action);
+        }
+}
+
+void Game::startFrameTicker()
+{
+    chrono::milliseconds interval = chrono::milliseconds(1000 / BS::FRAMERATE);
+    while (state == GameState::FIGHTING)
+    {
+        system("clear");
+        this->map.renderFleet(this->fleetA);
+        this->map.renderFleet(this->fleetB);
+
+        this->map.printFrame();
+        this_thread::sleep_for(interval);
+        return;
+    }
+}
+
+bool Game::parseInput(char input, Fleet **actingFleet, Action *action)
+{
+    if (Utils::isInputA(input))
+    {
+        *actingFleet = &fleetA;
+        *action = Utils::parseInputA(input);
+        return true;
+    }
+    else if (Utils::isInputB(input))
+    {
+        *actingFleet = &fleetB;
+        *action = Utils::parseInputB(input);
+        return true;
+    }
+    return false;
 }

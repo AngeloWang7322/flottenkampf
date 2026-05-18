@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <iostream>
 #include <memory>
-#include "models/fleet/fleet.h"
 #include "models/game/game.h"
 #include <termios.h>
 

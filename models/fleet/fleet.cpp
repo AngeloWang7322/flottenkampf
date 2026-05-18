@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <iostream>
 #include "fleet.h"
+#include "../map/map.h"
 #include "../ship/ship.h"
 #include "../ship/hunter/hunter.h"
 #include "../ship/destroyer/destroyer.h"
@@ -10,7 +11,7 @@
 
 using namespace std;
 
-Fleet::Fleet()
+Fleet::Fleet(Map& map) : map(map)
 {
 }
 
@@ -19,6 +20,37 @@ void Fleet::addShip(Ship *ship)
     ship->setY(this->ships.size());
     this->ships.push_back(ship);
 }
+
+void Fleet::startCombatAgainst(Fleet targetFleet)
+{
+    for (auto ship : this->ships)
+    {
+        ship->startAttacking(targetFleet);
+    }
+}
+
+void Fleet::execute(Action action)
+{
+    switch (action)
+    {
+    case Action::UP:
+    {
+    }
+    case Action::DOWN:
+    {
+    }
+    case Action::LEFT:
+    {
+    }
+    case Action::RIGHT:
+    {
+    }
+    case Action::EXECUTE:
+    {
+    }
+    }
+}
+
 void Fleet::addShip(int shipCode)
 {
     switch (shipCode)
