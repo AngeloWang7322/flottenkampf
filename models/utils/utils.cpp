@@ -12,10 +12,10 @@ string Utils::colorize(string str, TextStyle style)
     switch (style)
     {
     case TextStyle::RED:
-        code = "\e[0;33m";
+        code = "\e[0;31m";
         break;
     case TextStyle::YELLOW:
-        code = "\e[0;31m";
+        code = "\e[0;33m";
         break;
     case TextStyle::BLUE:
         code = "\e[0;36m";

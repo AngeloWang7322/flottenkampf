@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <iostream>
+#include <vector>
+#include <math.h>
 #include "map.h"
+#include "../projectile/projectile.h"
 #include "../fleet/fleet.h"
 #include "../utils/utils.h"
 #include "../../constants/BalanceSheet.cpp"
@@ -47,6 +50,7 @@ void Map::printFrame()
     resetFrame();
     renderFleet(*fleetA);
     renderFleet(*fleetB);
+    renderProjectiles();
     for (int y = 0; y < BS::MAP_HEIGHT; y++)
     {
         for (int x = 0; x < BS::MAP_WIDTH; x++)
@@ -65,7 +69,18 @@ void Map::renderFleet(Fleet fleet)
         renderShip(fleet.getShip(i), isActive);
     }
 }
-
+void Map::renderProjectiles()
+{
+    for (Ship *ship : getAllShips())
+    {
+        for (Projectile *p : ship->getProjectiles())
+        {
+            int x = round(p->getPos().x);
+            int y = round(p->getPos().y);
+            frameBuffer[y][x] = p->getDisplay();
+        }
+    }
+}
 bool Map::areaIsEmpty(int fromX, int toX, int fromY, int toY, Ship *ignore)
 {
     auto shipMap = getShipMap();
@@ -93,18 +108,20 @@ void Map::resetFrame()
 
 void Map::renderShip(Ship *ship, bool isActive)
 {
-    int size = ship->getSize();
-    int half = (ship->getSize() / 2);
+    int size = ship->getStats().size;
+    int half = ceil(ship->getStats().size / 2);
     TextStyle shipColor = isActive
                               ? TextStyle::YELLOW
                               : Utils::shipStateToColor(ship->getState());
     string toRender;
-    for (int i = (half * -1); i < half; i++)
+    for (int i = (half * -1); i <= half; i++)
     {
         if (i == half * -1)
             toRender = '<';
-        else if (i == half - 1)
+        else if (i == half)
             toRender = '>';
+        else if (i == 0)
+            toRender = 'H';
         else
             toRender = '=';
         frameBuffer[ship->getY()][ship->getX() + i] = Utils::colorize(toRender, shipColor);

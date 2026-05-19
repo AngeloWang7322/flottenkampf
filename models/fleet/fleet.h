@@ -16,7 +16,7 @@ public:
     Fleet(Map &);
     bool tryMoveShip(Pos move, Ship* ship);
     bool execute(Action action);
-    void startCombatAgainst(Fleet);
+    void startAttacking(Fleet*);
     void align(int);
     void addShip(Ship *);
     void addShip(int);

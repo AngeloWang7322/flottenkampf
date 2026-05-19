@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "../types.h"
+#include "../pos/pos.h"
 
 using namespace std;
 
@@ -17,6 +18,7 @@ public:
     static Action parseInputA(char);
     static Action parseInputB(char);
     static TextStyle shipStateToColor(ShipState);
+    static Pos snapToBoarder();
 
     template <typename T>
     static bool includes(const T &needle, const vector<T> &haystack);

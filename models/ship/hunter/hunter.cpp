@@ -5,12 +5,10 @@
 
 Hunter::Hunter() : Ship()
 {
-    this->size = BS::HUNTER_SIZE;
-    this->hp = BS::HUNTER_HP;
-    this->dmg = BS::HUNTER_DMG;
+    this->stats = BS::HUNTER_STATS;
 }
 
-bool Hunter::attack(Ship *target)
+bool Hunter::launchProjectile(Ship *target)
 {
     return true;
 }

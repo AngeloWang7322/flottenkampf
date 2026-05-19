@@ -18,11 +18,7 @@ Game::Game() : map(), fleetA(this->map), fleetB(this->map)
 
 void Game::selectFleets()
 {
-    string types[] = {"HUNTER", "DESTROYER", "CRUISER"};
-    string attacks[] = {"Critical Hit", "Homing Missile", "Bombardement"};
-    int hp[] = {BS::HUNTER_HP, BS::DESTROYER_HP, BS::CRUISER_HP};
-    int dmg[] = {BS::HUNTER_DMG, BS::DESTROYER_DMG, BS::CRUISER_DMG};
-    int costs[] = {BS::HUNTER_SIZE, BS::DESTROYER_SIZE, BS::CRUISER_SIZE};
+    ShipStats stats[] = {BS::HUNTER_STATS, BS::DESTROYER_STATS, BS::CRUISER_STATS};
     int hoveredA = 0;
     int hoveredB = 0;
     int budgetA = BS::FLEET_BUDGET;
@@ -39,13 +35,13 @@ void Game::selectFleets()
         for (int i = 0; i < 3; i++)
         {
             string ACount = i == hoveredA
-                                ? Utils::colorize("- " + to_string(countsA[i]) + " +", TextStyle::RED)
+                                ? Utils::colorize("- " + to_string(countsA[i]) + " +", TextStyle::YELLOW)
                                 : "- " + to_string(countsA[i]) + " +";
             string BCount = i == hoveredB
-                                ? Utils::colorize("- " + to_string(countsB[i]) + " +", TextStyle::RED)
+                                ? Utils::colorize("- " + to_string(countsB[i]) + " +", TextStyle::YELLOW)
                                 : "- " + to_string(countsB[i]) + " +";
 
-            string tempLine = +" [ " + types[i] + "($" + to_string(costs[i]) + ") " + to_string(hp[i]) + "Hp | " + to_string(dmg[i]) + "Dmg !" + attacks[i] + "! ] ";
+            string tempLine = +" [ " + stats[i].name + "($" + to_string(stats[i].size) + ") " + to_string(stats[i].hp) + "HP | " + to_string(stats[i].dmg) + "Dmg !" + stats[i].ability + "! ] ";
 
             cout << ACount << tempLine << BCount << std::endl;
         }
@@ -59,7 +55,7 @@ void Game::selectFleets()
                 &budgetA,
                 &isReadyA,
                 countsA,
-                costs);
+                stats);
         if (Utils::isInputB(input))
             this->handleFleetSelectionInput(
                 Utils::parseInputB(input),
@@ -67,7 +63,7 @@ void Game::selectFleets()
                 &budgetB,
                 &isReadyB,
                 countsB,
-                costs);
+                stats);
     }
     for (int i = 2; i >= 0; i--)
         for (int j = 0; j < countsA[i]; j++)
@@ -87,7 +83,7 @@ void Game::handleFleetSelectionInput(
     int *budget,
     bool *isReady,
     int counts[],
-    int costs[])
+    ShipStats stats[])
 {
     if (input == Action::EXECUTE)
         *isReady = !*isReady;
@@ -109,16 +105,16 @@ void Game::handleFleetSelectionInput(
             break;
 
         counts[*hovered]--;
-        *budget += costs[*hovered];
+        *budget += stats[*hovered].size;
         break;
     }
     case Action::RIGHT:
     {
-        if (*budget - costs[*hovered] < 0)
+        if (*budget - stats[*hovered].size < 0)
             break;
 
         counts[*hovered]++;
-        *budget -= costs[*hovered];
+        *budget -= stats[*hovered].size;
         break;
     }
     }
@@ -126,6 +122,8 @@ void Game::handleFleetSelectionInput(
 void Game::start()
 {
     state = GameState::FIGHTING;
+    fleetA.startAttacking(&fleetB);
+    fleetB.startAttacking(&fleetA);
     thread frameTicker([this]()
                        { startFrameTicker(); });
     char input;

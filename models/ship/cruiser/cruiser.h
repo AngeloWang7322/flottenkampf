@@ -7,7 +7,7 @@ class Cruiser : public Ship
 {
 public:
     Cruiser();
-    bool attack(Ship *ship);
+    bool launchProjectile(Ship *ship);
 
 private:
 };

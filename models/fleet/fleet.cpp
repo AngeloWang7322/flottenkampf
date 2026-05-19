@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <iostream>
+#include <thread>
+#include <vector>
 #include "fleet.h"
 #include "../map/map.h"
 #include "../ship/ship.h"
@@ -22,11 +24,13 @@ void Fleet::addShip(Ship *ship)
     this->ships.push_back(ship);
 }
 
-void Fleet::startCombatAgainst(Fleet targetFleet)
+void Fleet::startAttacking(Fleet *targetFleet)
 {
-    for (auto ship : this->ships)
+    for (Ship *ship : this->ships)
     {
-        ship->startAttacking(targetFleet);
+        thread t([ship, targetFleet]()
+                 { ship->attack(targetFleet); });
+        t.detach();
     }
 }
 
@@ -106,7 +110,7 @@ void Fleet::align(int pos)
     for (int i = 0; i < this->ships.size(); i++)
     {
         Ship *curShip = this->ships.at(i);
-        curShip->setX(border + ((curShip->getSize() / 2) * sign));
+        curShip->setX(border + ((curShip->getStats().size / 2) * sign));
         curShip->setY((BS::MAP_HEIGHT / 2) + (((i) / 2) + ((i % 2) * -1) * i));
     }
 }

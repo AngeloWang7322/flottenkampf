@@ -9,9 +9,11 @@ public:
     Pos(int, int);
     double distTo(Pos);
     Pos to(Pos);
+    void add(Pos);
     bool isOn(Pos);
     void multiply(double);
-    void moveTowards(Pos, double = 1);
+    void moveTowards(Pos, double = 2);
+    void clampToEdge();
     double x;
     double y;
 };

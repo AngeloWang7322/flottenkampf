@@ -5,11 +5,9 @@
 
 Cruiser::Cruiser() : Ship()
 {
-    this->size = BS::CRUISER_SIZE;
-    this->hp = BS::CRUISER_HP;
-    this->dmg = BS::CRUISER_DMG;
+    this->stats = BS::CRUISER_STATS;
 }
-bool Cruiser::attack(Ship* ship)
+bool Cruiser::launchProjectile(Ship* ship)
 {
     return true;
 }

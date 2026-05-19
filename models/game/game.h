@@ -3,7 +3,7 @@
 #define GAME_H
 #include "../fleet/fleet.h"
 #include <mutex>
-
+struct ShipStats;
 enum GameState;
 class Game
 {
@@ -13,7 +13,7 @@ public:
     void start();
 
 private:
-    void handleFleetSelectionInput(Action action, int *hovered, int *budget, bool *isReady, int counts[], int costs[]);
+    void handleFleetSelectionInput(Action action, int *hovered, int *budget, bool *isReady, int counts[], ShipStats[]);
     void startFrameTicker();
     bool parseInput(char, Fleet**, Action*);
     std::mutex game;

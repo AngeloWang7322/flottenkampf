@@ -6,6 +6,6 @@ class Destroyer : public Ship
 {
 public:
     Destroyer();
-    bool attack(Ship *ship);
+    bool launchProjectile(Ship *ship);
 };
 #endif

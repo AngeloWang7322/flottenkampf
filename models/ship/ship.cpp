@@ -5,8 +5,11 @@
 #include <chrono>
 #include <thread>
 #include "ship.h"
+#include "../projectile/projectile.h"
 #include "../fleet/fleet.h"
+#include "../../constants/BalanceSheet.cpp"
 
+struct ShipStats;
 using namespace std;
 
 Ship::Ship()
@@ -14,46 +17,54 @@ Ship::Ship()
     this->active = true;
     this->pos = Pos();
     this->state = ShipState::IDLE;
-    this->firerate = 0.5;
 }
 
 void Ship::move(Pos move)
 {
-    pos.x = min(max(static_cast<int>(pos.x + move.x), 0), BS::MAP_WIDTH - 1);
-    pos.y = min(max(static_cast<int>(pos.y + move.y), 0), BS::MAP_HEIGHT - 1);
+    pos.add(move);
+    pos.clampToEdge();
 }
-
+vector<Projectile *> Ship::getProjectiles()
+{
+    return projectiles;
+}
 int Ship::getStart()
 {
-    return pos.x - (size / 2);
+    return pos.x - (stats.size / 2);
 }
 
 int Ship::getEnd()
 {
-    return pos.x + (size / 2);
+    return pos.x + (stats.size / 2);
 }
 
-void Ship::startAttacking(Fleet fleet)
+void Ship::attack(Fleet *fleet)
 {
-    chrono::milliseconds interval = chrono::milliseconds(1000 * firerate);
+    chrono::milliseconds interval = chrono::milliseconds(static_cast<int>(1000 * stats.firerate));
     while (active)
     {
-        Ship *target = getTargetShip(fleet);
-        attack(target);
         this_thread::sleep_for(interval);
+        Ship *target = getTargetShip(fleet);
+        if (target == nullptr)
+            continue;
+        Projectile *projectile = new Projectile(pos, target->getPos(), 3);
+        projectiles.push_back(projectile);
+
+        thread t([projectile]()
+                 { projectile->launch(); });
+        t.detach();
     }
 }
 
-Ship *Ship::getTargetShip(Fleet fleet)
+Ship *Ship::getTargetShip(Fleet *fleet)
 {
     int closestDist;
     Ship *closestShip = nullptr;
-
-    for (Ship *ship : fleet.getShips())
+    for (Ship *ship : fleet->getShips())
     {
         int distance = pos.distTo(ship->getPos());
 
-        if (distance < range &&
+        if (distance < stats.range &&
             (closestShip == nullptr || distance < closestDist))
         {
             closestShip = ship;
@@ -62,10 +73,12 @@ Ship *Ship::getTargetShip(Fleet fleet)
     }
     return closestShip;
 }
+
 Pos Ship::getPos()
 {
     return pos;
 }
+
 void Ship::setX(int val)
 {
     this->pos.x = val;
@@ -85,9 +98,9 @@ int Ship::getY()
 {
     return this->pos.y;
 }
-int Ship::getSize()
+ShipStats Ship::getStats()
 {
-    return this->size;
+    return this->stats;
 }
 ShipState Ship::getState()
 {

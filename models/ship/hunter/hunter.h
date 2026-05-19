@@ -9,6 +9,6 @@ public:
     Hunter();
 
 private:
-    bool attack(Ship *);
+    bool launchProjectile(Ship *);
 };
 #endif
