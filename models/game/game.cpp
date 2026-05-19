@@ -34,10 +34,10 @@ void Game::selectFleets()
 
         for (int i = 0; i < 3; i++)
         {
-            string ACount = i == hoveredA
+            string ACount = i == hoveredA || isReadyA
                                 ? Utils::colorize("- " + to_string(countsA[i]) + " +", TextStyle::YELLOW)
                                 : "- " + to_string(countsA[i]) + " +";
-            string BCount = i == hoveredB
+            string BCount = i == hoveredB || isReadyB
                                 ? Utils::colorize("- " + to_string(countsB[i]) + " +", TextStyle::YELLOW)
                                 : "- " + to_string(countsB[i]) + " +";
 
@@ -85,7 +85,8 @@ void Game::handleFleetSelectionInput(
     int counts[],
     ShipStats stats[])
 {
-    if (input == Action::EXECUTE)
+    int count = counts[0] + counts[1] + counts[2];
+    if (input == Action::EXECUTE && count != 0)
         *isReady = !*isReady;
 
     if (*isReady)
@@ -94,10 +95,10 @@ void Game::handleFleetSelectionInput(
     switch (input)
     {
     case Action::UP:
-        *hovered = max(0, (*hovered - 1));
+        *hovered = (*hovered - 1) % 3;
         break;
     case Action::DOWN:
-        *hovered = min(2, (*hovered + 1));
+        *hovered = (*hovered + 1) % 3;
         break;
     case Action::LEFT:
     {
@@ -142,7 +143,7 @@ void Game::start()
 
 void Game::startFrameTicker()
 {
-    chrono::milliseconds interval = chrono::milliseconds(1000 / BS::FRAMERATE);
+    chrono::milliseconds interval = chrono::milliseconds(1000 / BS::FPS);
     while (state == GameState::FIGHTING)
     {
         system("clear");

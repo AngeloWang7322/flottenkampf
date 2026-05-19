@@ -4,6 +4,7 @@
 #include <vector>
 #include <chrono>
 #include <thread>
+#include <random>
 #include "ship.h"
 #include "../projectile/projectile.h"
 #include "../fleet/fleet.h"
@@ -24,30 +25,27 @@ void Ship::move(Pos move)
     pos.add(move);
     pos.clampToEdge();
 }
-vector<Projectile *> Ship::getProjectiles()
-{
-    return projectiles;
-}
-int Ship::getStart()
-{
-    return pos.x - (stats.size / 2);
-}
-
-int Ship::getEnd()
-{
-    return pos.x + (stats.size / 2);
-}
 
 void Ship::attack(Fleet *fleet)
 {
-    chrono::milliseconds interval = chrono::milliseconds(static_cast<int>(1000 * stats.firerate));
+    int interval = 1000 * stats.firerate;
+    int variedInterval;
+
     while (active)
     {
-        this_thread::sleep_for(interval);
+        variedInterval = interval + rand() % 200;
+        this_thread::sleep_for(chrono::milliseconds(variedInterval));
+
         Ship *target = getTargetShip(fleet);
         if (target == nullptr)
             continue;
-        Projectile *projectile = new Projectile(pos, target->getPos(), 3);
+
+        double randFac = pos.distTo(target->pos) * (1.0 - stats.accuracy);
+        Pos targetPos = target->getPos();
+        targetPos.randomize(randFac);
+        targetPos.clampToEdge();
+
+        Projectile *projectile = new Projectile(this->pos, targetPos, stats.velocity);
         projectiles.push_back(projectile);
 
         thread t([projectile]()
@@ -60,6 +58,7 @@ Ship *Ship::getTargetShip(Fleet *fleet)
 {
     int closestDist;
     Ship *closestShip = nullptr;
+
     for (Ship *ship : fleet->getShips())
     {
         int distance = pos.distTo(ship->getPos());
@@ -71,42 +70,25 @@ Ship *Ship::getTargetShip(Fleet *fleet)
             closestDist = distance;
         }
     }
+
     return closestShip;
 }
 
-Pos Ship::getPos()
-{
-    return pos;
-}
+Pos Ship::getPos() { return pos; }
 
-void Ship::setX(int val)
-{
-    this->pos.x = val;
-}
+ShipStats Ship::getStats() { return this->stats; }
 
-void Ship::setY(int val)
-{
-    this->pos.y = val;
-}
+ShipState Ship::getState() { return state; }
 
-int Ship::getX()
-{
-    return this->pos.x;
-}
+bool Ship::isActive() { return active; }
 
-int Ship::getY()
+int Ship::getStart() { return pos.x - (stats.size / 2); }
+
+int Ship::getEnd() { return pos.x + (stats.size / 2); }
+
+vector<Projectile *> Ship::getProjectiles() { return projectiles; }
+
+void Ship::setPos(Pos p)
 {
-    return this->pos.y;
-}
-ShipStats Ship::getStats()
-{
-    return this->stats;
-}
-ShipState Ship::getState()
-{
-    return state;
-}
-bool Ship::isActive()
-{
-    return active;
+    pos = p;
 }

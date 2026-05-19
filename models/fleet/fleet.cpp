@@ -20,7 +20,6 @@ Fleet::Fleet(Map &map) : map(map)
 
 void Fleet::addShip(Ship *ship)
 {
-    ship->setY(this->ships.size());
     this->ships.push_back(ship);
 }
 
@@ -96,45 +95,30 @@ void Fleet::addShip(int shipCode)
 
 void Fleet::align(int pos)
 {
-    int border, sign;
-    if (pos >= 0)
-    {
-        border = pos + BS::SPAWN_OFFSET;
-        sign = 1;
-    }
-    else
+    int border = pos + BS::SPAWN_OFFSET;
+    int sign = 1;
+
+    if (pos < 0)
     {
         border = pos + BS::MAP_WIDTH - BS::SPAWN_OFFSET;
         sign = -1;
     }
+    
     for (int i = 0; i < this->ships.size(); i++)
     {
         Ship *curShip = this->ships.at(i);
-        curShip->setX(border + ((curShip->getStats().size / 2) * sign));
-        curShip->setY((BS::MAP_HEIGHT / 2) + (((i) / 2) + ((i % 2) * -1) * i));
+        int x = (border + ((curShip->getStats().size / 2) * sign));
+        int y = ((BS::MAP_HEIGHT / 2) + (((i) / 2) + ((i % 2) * -1) * i));
+        curShip->setPos(Pos(x, y));
     }
 }
 
-void Fleet::setActive(int)
-{
-    active = 0;
-}
-int Fleet::getActive()
-{
-    return active;
-}
+void Fleet::setActive(int) { active = 0; }
 
-Ship *Fleet::getActiveShip()
-{
-    return ships.at(active);
-}
+int Fleet::getActive() { return active; }
 
-Ship *Fleet::getShip(int index)
-{
-    return this->ships[index];
-}
+Ship *Fleet::getActiveShip() { return ships.at(active); }
 
-vector<Ship *> Fleet::getShips()
-{
-    return ships;
-}
+Ship *Fleet::getShip(int index) { return this->ships[index]; }
+
+vector<Ship *> Fleet::getShips() { return ships; }

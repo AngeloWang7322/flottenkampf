@@ -69,6 +69,7 @@ void Map::renderFleet(Fleet fleet)
         renderShip(fleet.getShip(i), isActive);
     }
 }
+
 void Map::renderProjectiles()
 {
     for (Ship *ship : getAllShips())
@@ -77,7 +78,11 @@ void Map::renderProjectiles()
         {
             int x = round(p->getPos().x);
             int y = round(p->getPos().y);
-            frameBuffer[y][x] = p->getDisplay();
+
+            if (isOutOfMap(x, y))
+                continue;
+
+            frameBuffer[y][x] = Utils::colorize(p->getDisplay(), TextStyle::RED);
         }
     }
 }
@@ -92,11 +97,6 @@ bool Map::areaIsEmpty(int fromX, int toX, int fromY, int toY, Ship *ignore)
                 return false;
 
     return true;
-}
-
-bool Map::isOutOfMap(int x, int y)
-{
-    return (x < 0 || x >= BS::MAP_WIDTH) || (y < 0 || y >= BS::MAP_HEIGHT);
 }
 
 void Map::resetFrame()
@@ -124,6 +124,8 @@ void Map::renderShip(Ship *ship, bool isActive)
             toRender = 'H';
         else
             toRender = '=';
-        frameBuffer[ship->getY()][ship->getX() + i] = Utils::colorize(toRender, shipColor);
+        frameBuffer[(int)ship->getPos().y][(int)ship->getPos().x + i] = Utils::colorize(toRender, shipColor);
     }
 }
+
+bool Map::isOutOfMap(int x, int y) { return (x < 0 || x >= BS::MAP_WIDTH) || (y < 0 || y >= BS::MAP_HEIGHT); }

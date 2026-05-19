@@ -10,5 +10,6 @@ Hunter::Hunter() : Ship()
 
 bool Hunter::launchProjectile(Ship *target)
 {
+    
     return true;
 }

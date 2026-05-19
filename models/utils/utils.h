@@ -18,7 +18,7 @@ public:
     static Action parseInputA(char);
     static Action parseInputB(char);
     static TextStyle shipStateToColor(ShipState);
-    static Pos snapToBoarder();
+    static int randSign();
 
     template <typename T>
     static bool includes(const T &needle, const vector<T> &haystack);

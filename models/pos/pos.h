@@ -14,6 +14,7 @@ public:
     void multiply(double);
     void moveTowards(Pos, double = 2);
     void clampToEdge();
+    void randomize(double fac);
     double x;
     double y;
 };

@@ -1,15 +1,19 @@
 #pragma once
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
+#include <string>
 #include "../pos/pos.h"
 #include "../map/map.h"
+
 class Map;
 class Projectile
 {
 public:
+    Projectile() = default;
     Projectile(Pos pos, Pos target, double velocity);
     bool launch();
-    char getDisplay();
+    bool isActive();
+    std::string getDisplay();
     Pos getPos();
 
 private:

@@ -86,7 +86,12 @@ Action Utils::parseInputB(char input)
         throw "adsd";
     }
 }
-
+int Utils::randSign()
+{
+    return rand() % 2 == 1
+               ? 1
+               : -1;
+}
 template <typename T>
 bool Utils::includes(const T &needle, const vector<T> &haystack)
 {

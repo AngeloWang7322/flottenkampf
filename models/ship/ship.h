@@ -16,23 +16,20 @@ public:
     Ship();
     ~Ship() = default;
     void move(Pos move);
+    void attack(Fleet *);
+    bool isActive();
     int getStart();
     int getEnd();
-    std::vector<Projectile*> getProjectiles();
-    void attack(Fleet *);
-    void setX(int val);
-    void setY(int val);
     Pos getPos();
-    int getX();
-    int getY();
     ShipStats getStats();
     ShipState getState();
-    bool isActive();
+    std::vector<Projectile *> getProjectiles();
+    void setPos(Pos p);
 
 protected:
     virtual bool launchProjectile(Ship *) = 0;
     Ship *getTargetShip(Fleet *);
-    
+
     Pos pos;
     ShipState state;
     bool active;
