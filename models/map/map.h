@@ -3,9 +3,12 @@
 #define MAP_H
 #include <string.h>
 #include <vector>
+#include <array>
 #include "../projectile/projectile.h"
 #include "../fleet/fleet.h"
 #include "../../constants/BalanceSheet.cpp"
+
+using namespace std;
 
 class Projectile;
 class Ship;
@@ -16,13 +19,18 @@ public:
     Map();
     void renderFleet(Fleet fleet);
     void printFrame();
+    bool areaIsEmpty(int fromX, int toX, int fromY, int toY, Ship *ignore = nullptr);
+    void setFleets(Fleet *fleetA, Fleet *fleetB);
 
 private:
+    bool isOutOfMap(int x, int y);
     void renderShip(Ship *ship, bool isActive);
     void resetFrame();
-    std::string frameBuffer[BS::MAP_HEIGHT][BS::MAP_WIDTH];
+    vector<Ship *> getAllShips();
+    array<array<Ship *, BS::MAP_WIDTH>, BS::MAP_HEIGHT> getShipMap();
+    string frameBuffer[BS::MAP_HEIGHT][BS::MAP_WIDTH]{};
     Fleet *fleetA;
     Fleet *fleetB;
-    std::vector<Projectile> projectiles;
+    vector<Projectile> projectiles{};
 };
 #endif

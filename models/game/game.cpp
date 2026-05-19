@@ -10,9 +10,9 @@
 
 using namespace std;
 
-Game::Game() : fleetA(Fleet(this->map)), fleetB(Fleet(this->map))
+Game::Game() : map(), fleetA(this->map), fleetB(this->map)
 {
-    this->map = Map();
+    this->map.setFleets(&fleetA, &fleetB);
     this->state = GameState::FLEETCREATION;
 }
 
@@ -139,7 +139,7 @@ void Game::start()
             continue;
 
         actingFleet->execute(action);
-        }
+    }
 }
 
 void Game::startFrameTicker()
@@ -148,12 +148,8 @@ void Game::startFrameTicker()
     while (state == GameState::FIGHTING)
     {
         system("clear");
-        this->map.renderFleet(this->fleetA);
-        this->map.renderFleet(this->fleetB);
-
         this->map.printFrame();
         this_thread::sleep_for(interval);
-        return;
     }
 }
 

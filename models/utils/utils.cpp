@@ -63,6 +63,8 @@ Action Utils::parseInputA(char input)
         return Action::RIGHT;
     case 'f':
         return Action::EXECUTE;
+    default:
+        throw "asdasd";
     }
 }
 

@@ -10,6 +10,9 @@ class Ship
 public:
     Ship();
     ~Ship() = default;
+    void move(Pos move);
+    int getStart();
+    int getEnd();
     void startAttacking(Fleet);
     void setX(int val);
     void setY(int val);

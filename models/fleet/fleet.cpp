@@ -11,8 +11,9 @@
 
 using namespace std;
 
-Fleet::Fleet(Map& map) : map(map)
+Fleet::Fleet(Map &map) : map(map)
 {
+    active = 0;
 }
 
 void Fleet::addShip(Ship *ship)
@@ -29,26 +30,48 @@ void Fleet::startCombatAgainst(Fleet targetFleet)
     }
 }
 
-void Fleet::execute(Action action)
+bool Fleet::tryMoveShip(Pos move, Ship *ship)
+{
+    int shipStart = ship->getStart() + move.x;
+    int shipEnd = ship->getEnd() + move.x;
+    int shipY = ship->getPos().y + move.y;
+
+    if (map.areaIsEmpty(shipStart, shipEnd, shipY, shipY, ship))
+    {
+        ship->move(move);
+        return true;
+    }
+    return false;
+}
+
+bool Fleet::execute(Action action)
 {
     switch (action)
     {
     case Action::UP:
-    {
-    }
+        return tryMoveShip(Pos(0, -1), getActiveShip());
     case Action::DOWN:
-    {
-    }
+        return tryMoveShip(Pos(0, 1), getActiveShip());
     case Action::LEFT:
-    {
-    }
+        return tryMoveShip(Pos(-1, 0), getActiveShip());
     case Action::RIGHT:
-    {
-    }
+        return tryMoveShip(Pos(1, 0), getActiveShip());
     case Action::EXECUTE:
     {
+        changeActive();
+        return true;
     }
+    default:
+        return true;
     }
+}
+
+void Fleet::changeActive()
+{
+    do
+    {
+        active = (active + 1) % ships.size();
+    } while (!getActiveShip()->isActive());
 }
 
 void Fleet::addShip(int shipCode)
@@ -97,7 +120,7 @@ int Fleet::getActive()
     return active;
 }
 
-Ship *Fleet::getActiveShip(int)
+Ship *Fleet::getActiveShip()
 {
     return ships.at(active);
 }
@@ -109,5 +132,5 @@ Ship *Fleet::getShip(int index)
 
 vector<Ship *> Fleet::getShips()
 {
-    return this->ships;
+    return ships;
 }

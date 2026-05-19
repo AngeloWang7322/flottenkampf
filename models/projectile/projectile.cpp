@@ -28,6 +28,7 @@ bool Projectile::start()
 
         this_thread::sleep_for(interval);
     }
+    return true;
 }
 char Projectile::getDisplay()
 {

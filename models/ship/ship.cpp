@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <iostream>
+#include <algorithm>
 #include <vector>
 #include <chrono>
 #include <thread>
@@ -14,6 +15,22 @@ Ship::Ship()
     this->pos = Pos();
     this->state = ShipState::IDLE;
     this->firerate = 0.5;
+}
+
+void Ship::move(Pos move)
+{
+    pos.x = min(max(static_cast<int>(pos.x + move.x), 0), BS::MAP_WIDTH - 1);
+    pos.y = min(max(static_cast<int>(pos.y + move.y), 0), BS::MAP_HEIGHT - 1);
+}
+
+int Ship::getStart()
+{
+    return pos.x - (size / 2);
+}
+
+int Ship::getEnd()
+{
+    return pos.x + (size / 2);
 }
 
 void Ship::startAttacking(Fleet fleet)

@@ -14,18 +14,20 @@ class Fleet
 public:
     Fleet() = default;
     Fleet(Map &);
+    bool tryMoveShip(Pos move, Ship* ship);
+    bool execute(Action action);
     void startCombatAgainst(Fleet);
     void align(int);
-    void execute(Action action);
     void addShip(Ship *);
     void addShip(int);
     void setActive(int);
     int getActive();
-    Ship *getActiveShip(int);
+    Ship *getActiveShip();
     Ship *getShip(int);
     vector<Ship *> getShips();
 
 private:
+    void changeActive();
     vector<Ship *> ships;
     Map &map;
     int active;
